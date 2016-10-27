@@ -65,4 +65,8 @@ class AuthController extends BaseApiController
         return response()->json(compact('user'));
     }
 
+    public function logoutUser()
+    {
+        
+    }
 }
