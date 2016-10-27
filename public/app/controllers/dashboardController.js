@@ -4,10 +4,10 @@ angular.module('ReviewfloApp').controller('DashboardController', [
     '$http',
     '$timeout',
     '$cookies',
-   
-    function($scope, $location, $http, $timeout, $cookies){
+    'admin',
+    function($scope, $location, $http, $timeout, $cookies, admin){
 
-       
-
+       var adminList = admin.getAdmins();
+       console.log(adminList);
     }
 ]);

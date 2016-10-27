@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\API\StoreAdminRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\Traits\Admin;
 
 class AdminController extends Controller
 {
+    use Admin;
     /**
      * Show all admins
      *
@@ -16,8 +19,8 @@ class AdminController extends Controller
      */
     public function index()
     {
-        
-        
+        $roleAdmin = \App\Role::where('role_name', 'Admin')->with('users')->first();
+        return json_encode($roleAdmin->users)  ;
     }
 
     /**
@@ -26,9 +29,24 @@ class AdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreAdminRequest $request)
     {
-        
+        try{
+            $newAdmin = [
+                'role_id' => $this->adminRoleId(),
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+                'active' => true,
+            ];
+            $user = \App\User::create($newAdmin);
+            $message = 'admin created';
+            $error = 0;        
+        }catch(\Exception $e){
+            $error = 1;
+            $message = $e->getMessage();
+        }
+        return ['error' => $error, 'message' => $message];
     }
 
     /**
@@ -64,4 +82,6 @@ class AdminController extends Controller
     {
         
     }
+    
+    
 }

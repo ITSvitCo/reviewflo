@@ -21,13 +21,11 @@ class AuthController extends BaseApiController
             if (! $token = \JWTAuth::attempt($credentials)) {
                 return response()->json(['errors' => ['common'=>['invalid credentials']]], 401);
             }
+            //Verify active account
             $user = \App\User::where('email', $credentials['email'])->first();
             if(! $user->active){
                 return response()->json(['errors' => ['common'=>['account not active']]], 401);
-            };
-            
-            //Verify active account
-            
+            };           
         } catch (JWTException $e) {
             // Something went wrong whilst attempting to encode the token
             return response()->json(['errors' => ['common'=>['could not create token']]], 500);
