@@ -1,16 +1,36 @@
 var ReviewfloApp = angular.module("ReviewfloApp", ["ngRoute", "ngCookies", "ngSanitize"]);
 
 ReviewfloApp.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
+        
     $routeProvider
         .when("/login", {
             templateUrl : "app/template/login.html",
             controller : "LoginController",
         })
+        //admin routes
         .when("/dashboard", {
             templateUrl : "app/template/dashboard.html",
             controller : "DashboardController",
         })
+        .when("/dashboard/admins", {
+            templateUrl : "app/template/admins.html",
+            controller : "AdminsController",
+        })
+        .when("/dashboard/clients", {
+            templateUrl : "app/template/clients.html",
+            controller : "ClientsController",
+        })
+        .when("/dashboard/setting", {
+            templateUrl : "app/template/setting.html",
+            controller : "SettingController",
+        })
+        //clients routes
+        .when("/cabinet", {
+            templateUrl : "app/template/cabinet.html",
+            controller : "CabinetController",
+        })
         .otherwise('/login');
+
     $httpProvider
         .interceptors.push(['$q', '$location', '$cookies', function ($q, $location, $cookies) {
             return {
@@ -34,18 +54,26 @@ ReviewfloApp.config(['$routeProvider', '$httpProvider', function($routeProvider,
 }]);
 
 // Check user authentication, if true login page is not available
-ReviewfloApp.run(['$rootScope', '$location', '$cookies',  function($rootScope, $location, $cookies ) {
-    $rootScope.$on('$locationChangeStart', function(ev, next, current) {
-        var token = $cookies.get('token');
-        if(next.search('/dashboard') !== -1){
-            if(typeof token == 'undefined' ){
-                $location.path('/login');
-            }
-        }
-        if(token){
-            $location.path('/dashboard');
-        }
-    });
+ReviewfloApp.run(function($rootScope, $location, $cookies) {
 
-}]);
+  $rootScope.$on('$locationChangeStart', function(ev, next, current) {
+
+      token= $cookies.get('token');
+      if($location.$$path.search('/login') == 0){
+          if(token){
+              $location.path('/dashboard');
+          }
+      }
+      
+      if(!token){
+          $location.path('/login');
+      }
+
+  });
+
+});
+
+
+
+
 
