@@ -57,9 +57,12 @@ class AddReviewfloTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('type_links');
-        Schema::dropIfExists('following_links');
+        
+        Schema::drop('following_links');
+        Schema::drop('type_links');
+        Schema::drop('users');
+        Schema::drop('roles');
+        
+        
     }
 }

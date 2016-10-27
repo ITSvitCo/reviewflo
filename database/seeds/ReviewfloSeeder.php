@@ -11,12 +11,29 @@ class ReviewfloSeeder extends Seeder
      */
     public function run()
     {
-
-        \DB::table('roles')->delete();
-        \DB::table('users')->delete();
-        \DB::table('type_links')->delete();
+        $this->deleteTables();
+        $this->addRoles();
+        $this->addUser();
+        $this->addTypeLinks();
+    }
+    
+    /**
+     * Delete tabkle from database
+     */
+    private function deleteTables()
+    {
         \DB::table('following_links')->delete();
-
+        \DB::table('type_links')->delete();
+        \DB::table('users')->delete();
+        \DB::table('roles')->delete();
+    }
+    
+    
+    /**
+     * Add roles for user
+     */
+    private function addRoles()
+    {
         \DB::table('roles')->insert([
             [
                'role_name'=>'Admin'
@@ -28,6 +45,13 @@ class ReviewfloSeeder extends Seeder
                'role_name'=>'Client Customer'
             ],
         ]);
+    }
+    
+    /**
+     * Add user with admin role
+     */
+    private function addUser()
+    {
         $role = \DB::table('roles')->select('id')->where('role_name', '=', 'Admin')->first();
         \DB::table('users')->insert([
             [
@@ -39,7 +63,13 @@ class ReviewfloSeeder extends Seeder
             ],
            
         ]);
-        
+    }
+    
+    /**
+     * Add type of clients link 
+     */
+    private function addTypeLinks()
+    {
         \DB::table('type_links')->insert([
             [
                 'type' => 'facebook'
@@ -48,9 +78,5 @@ class ReviewfloSeeder extends Seeder
                 'type' => 'google'
             ],
         ]);
-
-        
-        
-        
     }
 }
