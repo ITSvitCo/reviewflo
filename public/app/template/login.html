@@ -1,10 +1,16 @@
-<form>
+<form ng-submit="submit()">
     <header>Login</header>
-    <label>Username</label>
-    <input/>
-        <div class="help">At least 6 character</div>
-        <label>Password</label>
-    <input/>
-    <div class="help">Use upper and lowercase lettes as well</div>
-    <button>Login</button>
+    
+    <label>Email</label>
+    <input placeholder="Email" ng-model="user.email" type="text" class="form-control">
+    <div class="error help" ng-repeat="report in error.email">{{report.msg}}</div>
+    
+    <label>Password</label>
+    <input placeholder="Password" ng-model="user.password" class="form-control"  type="password" id="pwd">
+    <div class="error help" ng-repeat="report in error.password">{{report.msg}}</div>        
+    
+    <div class="error help" ng-repeat="report in error.common">{{report.msg}}</div>
+    
+    <button type="submit">Login</button>
 </form>
+

@@ -75,3 +75,7 @@ body.login form button {
 body.login form button:hover {
   background: #ff5252;
 }
+
+body.login div.error.help {
+    color: #FF3838;
+}
